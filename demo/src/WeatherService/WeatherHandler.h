@@ -33,17 +33,21 @@ WeatherType::type WeatherServiceHandler::GetWeather(const int64_t city) {
      // Your implementation goes here
      printf("GetWeather\n");
 
-    
+ // return (0 == rand()%2)? WeatherType::type::COLD : WeatherType::type::WARM;  
     // randomly select a weather
-    if(city%2==0)
-	    return WeatherType::type::COLD
-    else
-	    return WeatherType::type::WARM
-//return   (i%2==0)? WeatherType::type::COLD : WeatherType::type::WARM;
+     if(city_id%2==0){
+	    return WeatherType::type::COLD;
+}
+     else{
+	    return WeatherType::type::WARM;
+}
+
+
 }
 
 } // namespace vending_machine
 
 
 #endif //VENDING_MACHINE_MICROSERVICES_WEATHERHANDLER_H
+
 

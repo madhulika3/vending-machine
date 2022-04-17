@@ -4,18 +4,17 @@
 -- DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
 -- @generated
 --
-local vending_machine_ttype = require
-
-local Thrift = require
+local vending_machine_ttype= require 'vending_machine_ttypes'
+local Thrift = require 'Thrift'
 local TType = Thrift.TType
 local TMessageType = Thrift.TMessageType
 local __TObject = Thrift.__TObject
 local TApplicationException = Thrift.TApplicationException
 local __TClient = Thrift.__TClient
 local __TProcessor = Thrift.__TProcessor
-local ttype = Thrift. ttype
+local ttype = Thrift.ttype
 local ttable_size = Thrift.ttable_size
-local TException = Thrift.Texception
+local TException = Thrift.TException
 
 
 local OrderBeverageServiceClient = __TObject.new(__TClient, {
