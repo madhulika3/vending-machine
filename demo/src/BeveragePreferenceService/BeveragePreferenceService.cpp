@@ -5,7 +5,7 @@
 #include <signal.h>
 
 #include "../utils.h"
-#include "OrderBeverageHandler.h"
+#include "BeveragePreferenceHandler.h"
 using json = nlohmann::json;
 using apache::thrift::server::TThreadedServer;
 using apache::thrift::transport::TServerSocket;
@@ -16,12 +16,12 @@ using namespace vending_machine;
 
 
 //signal handler code
-  void sigintHandler(int sig) {
- 	exit(EXIT_SUCCESS);
+void sigintHandler(int sig) {
+       exit(EXIT_SUCCESS);
  	}
 
  	// entry of this service
-  int main(int argc, char **argv) {
+int main(int argc, char **argv) {
  	  // 1: notify the singal handler if interrupted
   signal(SIGINT, sigintHandler);
  	      // 1.1: Initialize logging
@@ -30,28 +30,30 @@ using namespace vending_machine;
   json config_json;
   if (load_config_file("config/service-config.json", &config_json) != 0) {
      exit(EXIT_FAILURE);
-           }
+  }
 
              // 3: get my port
-  int my_port = config_json["order-beverage-service"]["port"];
-/
-//                 // 4: get the weather service's port and address
+  int my_port = config_json["beverage-preference-service"]["port"];
+
+             // 4: get the weather service's port and address
   int weather_service_port = config_json["weather-service"]["port"];
   std::string weather_service_addr = config_json["weather-service"]["addr"];
-//                      
-//                        // 5: get the client of weather-service
-   ClientPool<ThriftClient<WeatherServiceClient>> weather_client_pool("weather-service", weather_service_addr, weather_service_port, 0, 128, 1000);
-//
-//                                  // 6: configure this server
-   TThreadedServer server(std::make_shared<OrderBeverageServiceProcessor>(std::make_shared<OrderBeverageServiceHandler>(
-//                                                                  &weather_client_pool)),
-//                                                                        std::make_shared<TServerSocket>("0.0.0.0", my_port),
-//                                                                              std::make_shared<TFramedTransportFactory>(),
-//                                                                                    std::make_shared<TBinaryProtocolFactory>()
-//                                                                                      );
-//                                                                                        
-//                                                                                          // 7: start the server
-//                                                                                            std::cout << "Starting the order-beverage server ..." << std::endl;
-//                                                                                              server.serve();
-//                                                                                                return 0;
+                      
+              // 5: get the client of weather-service
+  ClientPool<ThriftClient<WeatherServiceClient>> weather_client_pool("weather-service", weather_service_addr, weather_service_port, 0, 128, 1000);
+
+                                 // 6: configure this server
+   TThreadedServer server(
+       std::make_shared<BeveragePreferenceServiceProcessor>(
+           std::make_shared<BeveragePreferenceHandler>(
+               &weather_client_pool)),
+       std::make_shared<TServerSocket>("0.0.0.0", my_port),
+       std::make_shared<TFramedTransportFactory>(),
+       std::make_shared<TBinaryProtocolFactory>()
+   );
+                                                  
+             // 7: start the server
+   std::cout << "Starting the order-beverage server ..." << std::endl;
+   server.serve();
+                                                                                               return 0;
 //                                                                                                }
