@@ -8,18 +8,18 @@
 
 #include "../../gen-cpp/OrderBeverageService.h"
 #include "../../gen-cpp/WeatherService.h"
-
+#include "../../gen-cpp/BeveragePreferenceService.h
 #include "../ClientPool.h"
 #include "../ThriftClient.h"
 #include "../logger.h"
 
 namespace vending_machine{
 
-	class OrderBeverageServiceHandler : public OrderBeverageServiceIf {
+	class BeveragePreferenceHandler : pubic BeveragePreferenceServiceIf {
 		 public:
-			   OrderBeverageServiceHandler(
+			   BeveragePreferenceHandler(
 					                     ClientPool<ThriftClient<WeatherServiceClient>> *) ;
-			     ~OrderBeverageServiceHandler() override=default;
+			     ~BeveragePreferenceHandler() override=default;
 
 			       void PlaceOrder(std::string& _return, const int64_t city) override;
 			        private:
@@ -27,14 +27,14 @@ namespace vending_machine{
 	};
 
 	// Constructor
-OrderBeverageServiceHandler::OrderBeverageServiceHandler(
+BeveragePreferenceHandler::BeveragePreferenceHandler(
 ClientPool<ThriftClient<WeatherServiceClient>> *weather_client_pool) {
         // Storing the clientpool
      _weather_client_pool = weather_client_pool;                     }	
 
 
 // Remote Procedure "PlaceOrder"
-void OrderBeverageServiceHandler::PlaceOrder(std::string& _return, const int64_t city){
+void BeveragePreferenceHandler::PlaceOrder(std::string& _return, const int64_t city){
       // Your implementation goes here
      printf("PlaceOrder\n");
 
@@ -63,17 +63,20 @@ void OrderBeverageServiceHandler::PlaceOrder(std::string& _return, const int64_t
 	 _weather_client_pool->Push(weather_client_wrapper);
 
 	 // 3. business logic
-	 strand(time(0);
+	 strand(time(0));
 	 string warmArray[3]= {"ice tea","lemonde","soda"}
 	 string coldArray[3] ={"cappucino","espresso","latte"}
-	 if(weatherType == WeatherType::type::WARM)
+	 if(weatherType == WeatherType::type::WARM){
 		 for (int i=0;i<3;i++){
 		 cout << warmArray[i] <<endl;
 	 }
-	 else
+	 }
+	 else{
         	 for (int i=0;i<3;i++){
 		 cout << coldArray[i] <<endl;
-         return 0;
+	 }
+	 } 
+	 return 0;
 	 
 		    
 #endif
@@ -82,4 +85,4 @@ void OrderBeverageServiceHandler::PlaceOrder(std::string& _return, const int64_t
 } // namespace vending_machine
 
 
-#endif //VENDING_MACHINE_MICROSERVICES_BEVERAGEPREFERENCESERVICE_H
+#endif //VENDING_MACHINE_MICROSERVICES_BEVERAGEPREFERENCEHANDLER_H
